@@ -10,9 +10,11 @@ const cabSchema = mongoose.Schema({
     },
     carMake: String,
     carModel: String,
-    carBrand: String
+    carBrand: String,
+    additionalCost: Number
 });
 
+module.exports = mongoose.model('Cab', cabSchema);
 
 // cabType:
 // 1: normal

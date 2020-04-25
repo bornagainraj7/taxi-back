@@ -7,7 +7,7 @@ const logger = require('tracer').colorConsole();
 const MONGODB_URI = "mongodb://127.0.0.1:27017/TaxiBooking";
 
 // const postRoutes = require('./app/routes/posts.routes');
-// const userRoutes = require('./app/routes/user.routes');
+const userRoutes = require('./app/routes/user.routes');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -80,7 +80,7 @@ app.use('/', (req, res) => {
     res.status(200).send('Welcome');
 });
 // app.use('/api/posts', postRoutes);
-// app.use('/api/user', userRoutes);
+app.use('/api/user', userRoutes);
 
 
 const port = normalizePort(process.env.PORT || 3000);
