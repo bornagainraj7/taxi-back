@@ -11,6 +11,7 @@ exports.signUpUser = async (req, res, next) => {
     const password = req.body.password;
     const driver = req.body.driver || false;
     const fullName = req.body.fullName;
+    logger.info(fullName);
 
     try {
         const hash = await bcrypt.hash(password, 10);

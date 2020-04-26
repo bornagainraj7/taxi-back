@@ -7,11 +7,13 @@ const cabSchema = mongoose.Schema({
     currentLocation: {
         lat: { type: String, required: true },
         long: { type: String, required: true },
+        city: { type: String },
+        fullAddress: { type: String }
     },
     carMake: String,
     carModel: String,
     carBrand: String,
-    additionalCost: Number
+    available: Boolean,
 });
 
 module.exports = mongoose.model('Cab', cabSchema);

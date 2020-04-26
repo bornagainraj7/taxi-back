@@ -5,13 +5,14 @@ const logger = require('tracer').colorConsole();
 
 exports.generateToken = (data) => {
     return new Promise((resolve, reject) => {
-        try{
-
+        try {
             let claims = {
                 jwtId: Date.now(),
                 issueDate: new Date(),
                 userId: data._id,
                 email: data.email,
+                isDriver: data.isDriver,
+                fullName: data.fullName
             };
             let expiry = {
                 expiresIn: '24h'

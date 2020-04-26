@@ -6,8 +6,9 @@ const bodyParser = require('body-parser');
 const logger = require('tracer').colorConsole();
 const MONGODB_URI = "mongodb://127.0.0.1:27017/TaxiBooking";
 
-// const postRoutes = require('./app/routes/posts.routes');
+const bookingRoutes = require('./app/routes/booking.routes');
 const userRoutes = require('./app/routes/user.routes');
+const cabRoutes = require('./app/routes/cab.routes');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -76,9 +77,9 @@ const onListening = () => {
 }
 
 // Routes
-// app.use('/api/posts', postRoutes);
+app.use('/api/booking', bookingRoutes);
 app.use('/api/user', userRoutes);
-
+app.use('/api/cab', cabRoutes);
 
 const port = normalizePort(process.env.PORT || 3000);
 app.set('port', port);
