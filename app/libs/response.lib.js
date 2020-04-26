@@ -1,5 +1,5 @@
 exports.success = (res, status, data, message) => {
-    res.status(status).send({
+    return res.status(status).send({
         error: false,
         message,
         data
@@ -7,9 +7,9 @@ exports.success = (res, status, data, message) => {
 };
 
 exports.error = (res, status, data, message) => {
-    res.status(status).send({
+    return res.status(status).send({
         error: true,
         message,
         data
-    })
+    });
 };

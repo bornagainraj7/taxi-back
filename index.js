@@ -76,9 +76,6 @@ const onListening = () => {
 }
 
 // Routes
-app.use('/', (req, res) => {
-    res.status(200).send('Welcome');
-});
 // app.use('/api/posts', postRoutes);
 app.use('/api/user', userRoutes);
 
