@@ -1,6 +1,7 @@
 const CabModel = require('./../models/cab.model');
 const logger = require('tracer').colorConsole();
 const response = require('./../libs/response.lib');
+const cabLib = require('./../libs/cab.lib');
 
 exports.addNewCab = (req, res, next) => {
     const body = req.body;
@@ -18,27 +19,27 @@ exports.addNewCab = (req, res, next) => {
     });
 };
 
-exports.toggleAvailability = (req, res, next) => {
+exports.toggleAvailability = async (req, res, next) => {
     const cabId = req.params.id;
-    let query = { _id: cabId, isDriver: req.user.userId };
-
-    CabModel.findById(cabId)
-    .then(cab => {
-        let newCab = CabModel({
-            _id: cabId,
-            available: !cab.available
-        });
-
-        return CabModel.updateOne(query, newCab);
-    })
-    .then(result => {
-        if (result.n > 0) {
-            return response.success(res, 201, null, 'Cab Availability Changed');
-        }
-        return response.success(res, 401, null, 'Unable to Change Cab Availability');
-    })
-    .catch(error => {
+    const driverId = req.user.userId;
+    
+    try {
+        const toggle = cabLib.toggleCab(cabId, driverId);
+        return response.success(res, 201, null, 'Cab Availability Changed');
+    } catch (error) {
         logger.error(error);
-        return response.success(res, 500, null, 'Server Error Occurred');
-    });
+        return response.success(res, 500, null, 'Error while changing cab availability');
+    }
 };
+
+exports.getAllCabs = async(req, res, next) => {
+    const driverId = req.user.userId;
+
+    try {
+        const data = await CabModel.find({ driverId });
+        return response.success(res, 200, data, 'All cabs fetched');
+    } catch (error) {
+        logger.error(error);
+        return response.error(res, 500, null, 'Server Error Occurred');
+    }
+}

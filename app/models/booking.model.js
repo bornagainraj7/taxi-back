@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const bookingSchema = mongoose.Schema({
     cabId: { type: mongoose.Schema.Types.ObjectId, ref: 'Cab', require: true, index: true },
+    travellerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true, index: true },
     price: { type: Number },
     discoutedPrice: { type: Number },
     isDiscount: { type: Boolean },
@@ -9,32 +10,30 @@ const bookingSchema = mongoose.Schema({
     rideStartTime: { type: Date },
     rideEndTime: { type: Date },
     rideDuration: { type: Number },
-    cabType: { type: Number, default: 1, enum: [1, 2, 3] },
+    cabType: { type: Number, default: 1, enum: [1, 2] },
     driverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true, index: true },
     vehicleNumber: { type: String },
     location: {
         start: {
             latlng: {
-                lat: String,
-                long: String
+                type: { type: String, enum: ['Point'] },
+                coordinates: { type: [Number] }
             },
-            fullAddress: String,
-            city: String,
         },
         end: {
             latlng: {
-                lat: String,
-                long: String
+                type: { type: String, enum: ['Point'] },
+                coordinates: { type: [Number] }
             },
-            fullAddress: String,
-            city: String,
         }
     }
 });
+
+bookingSchema.index({ 'location.start.latlng': '2dsphere' });
+bookingSchema.index({ 'location.end.latlng': '2dsphere' });
 
 module.exports = mongoose.model('Booking', bookingSchema);
 
 // cabType:
 // 1: normal
 // 2: pink
-// 3: black
