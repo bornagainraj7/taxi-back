@@ -5,7 +5,7 @@ const authMiddleware = require('./../middlewares/auth.middleware');
 
 router.post('/add', authMiddleware.isAuthorised, authMiddleware.isDriver, CabController.addNewCab);
 
-router.get('/toggle/:id', authMiddleware.isAuthorised, authMiddleware.isDriver, CabController.toggleAvailability);
+router.get('/toggle/:id', authMiddleware.isAuthorised, CabController.toggleAvailability);
 
 router.get('/get', authMiddleware.isAuthorised, authMiddleware.isDriver, CabController.getAllCabs);
 

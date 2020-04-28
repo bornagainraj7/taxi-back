@@ -6,13 +6,10 @@ const tokenLib = require('./../libs/token.lib');
 const response = require('./../libs/response.lib');
 
 exports.signUpUser = async (req, res, next) => {
-    logger.info();
     const email = req.body.email;
     const password = req.body.password;
-    const driver = req.body.driver || false;
+    const driver = req.body.isDriver;
     const fullName = req.body.fullName;
-    logger.info(fullName);
-
     try {
         const hash = await bcrypt.hash(password, 10);
 
@@ -51,7 +48,6 @@ exports.loginUser = (req, res, next) => {
     };
 
     let comparePassword = (userData) => {
-        logger.info(userData);
         return new Promise((resolve, reject) => {
             bcrypt.compare(password, userData.password)
             .then(result => {
@@ -83,7 +79,16 @@ exports.loginUser = (req, res, next) => {
             const user = await findUser();
             const userData = await comparePassword(user);
             const token = await generateToken(userData);
-            return response.success(res, 200, token, 'Logged in successfully');
+
+            const data = {
+                _id: userData.id,
+                fullName: userData.fullName,
+                email: userData.email,
+                isDriver: userData.isDriver,
+                token: token,
+            };
+
+            return response.success(res, 200, data, 'Logged in successfully');
         } catch(error) {
             logger.error(error);
             return response.error(res, 401, null, 'Unable to verify user details');

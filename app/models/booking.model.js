@@ -6,13 +6,13 @@ const bookingSchema = mongoose.Schema({
     price: { type: Number },
     discoutedPrice: { type: Number },
     isDiscount: { type: Boolean },
-    createdOn: { type: Date, default: Date.now },
-    rideStartTime: { type: Date },
-    rideEndTime: { type: Date },
-    rideDuration: { type: Number },
+    createdOn: { type: Date, default: new Date() },
     cabType: { type: Number, default: 1, enum: [1, 2] },
     driverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true, index: true },
+    carBrand: { type: String },
+    carModel: { type: String },
     vehicleNumber: { type: String },
+    distance: { type: String },
     location: {
         start: {
             latlng: {
